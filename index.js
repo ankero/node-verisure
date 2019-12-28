@@ -20,13 +20,14 @@ class Verisure {
     }
 
     const requestOptions = Object.assign(options, {
-      baseURL: `https://${this.host}/xbn/2/`,
+      baseURL: `https://${this.host}/xbn/2`,
       headers: options.headers || {}
     });
 
     requestOptions.headers.Host = this.host;
     if (this.token) {
       requestOptions.headers.Cookie = `vid=${this.token}`;
+      delete requestOptions.headers.Authorization;
     }
 
     const requestRef = JSON.stringify(requestOptions);
@@ -34,8 +35,6 @@ class Verisure {
     if (promise) {
       return promise;
     }
-
-    console.log("requestOptions", requestOptions);
 
     promise = axios(requestOptions)
       .then(({ data }) => {
